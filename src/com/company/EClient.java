@@ -18,15 +18,9 @@ public class EClient {
     //JSplitPane frame2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
+    private javax.swing.JList online_list;
 
-    /**
-     * Constructs the user by laying out the GUI and registering a
-     * listener with the textfield so that pressing Return in the
-     * listener sends the textfield contents to the server.  Note
-     * however that the textfield is initially NOT editable, and
-     * only becomes editable AFTER the user receives the NAMEACCEPTED
-     * message from the server.
-     */
+    //client constructor
     public EClient() {
 
         //chat window GUI
@@ -35,14 +29,22 @@ public class EClient {
         frame.getContentPane().add(textField, "South");
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
         frame.pack();
+        frame.setResizable(true);
+        online_list = new javax.swing.JList();
+
+        online_list.setModel(new javax.swing.AbstractListModel() {
+        String[] online_users = {"user1", "user2"};
+        public int getSize() { return online_users.length; }
+        public Object getElementAt(int i) { return online_users[i]; }
+        });
+
+        online_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        online_list.setFixedCellWidth(80);
+        frame.getContentPane().add(online_list, "East");
 
         // Add Listeners
         textField.addActionListener(new ActionListener() {
-            /**
-             * Responds to pressing the enter key in the textfield by sending
-             * the contents of the text field to the server.    Then clear
-             * the text area in preparation for the next message.
-             */
+            //when hit enter it sends the message to screen.
             public void actionPerformed(ActionEvent e){
                 out.println(textField.getText());
                 textField.setText("");
@@ -79,15 +81,14 @@ public class EClient {
     }
     //runs the user and allows user to leave with a closeable frame.
     public static void main(String[] args) throws Exception {
-        //Login client = new Login();
-        //client.start();
-        //System.out.println("left login button 1");
-        //if(client.connect) {
-
-        EClient user = new EClient();
-        user.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        user.frame.setVisible(true);
-        user.run();
-        //}
+        Login client = new Login();
+        client.start();
+        if(client.connect == 1) {
+            client.connect = 0;
+            EClient user = new EClient();
+            user.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            user.frame.setVisible(true);
+            user.run();
+        }
     }
 }

@@ -34,36 +34,6 @@ public class EServer{
         }
     }
 
-/*    public static void insert_users(){
-        try{
-            BufferedReader in = new BufferedReader(new FileReader("src/user_info"));
-            String [] info;
-            String check;
-            String username;
-            String password;
-
-            UserInfo = new TreeMap();
-
-            while((check = in.readLine()) != null){
-                info = check.split(":");
-                username = info[0];
-                password = info[1];
-                UserInfo.put(username, password);
-            }
-            in.close();             //close the file
-        }
-        catch(IOException e){       //throw exception if file fails
-            System.out.println("Failed to read file.\n");
-        }
-    }
-    public static void print_users(){
-        for(Map.Entry<String, String> entry : UserInfo.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            System.out.printf("%s : %s\n", key, value);
-        }
-    }
-*/
     //this class manages a single client & sends/receives messages.
     private static class Handler extends Thread{
         private String name;
@@ -73,16 +43,16 @@ public class EServer{
 
         //constructor
         public Handler(Socket socket){
-            Login user = new Login();
-            user.start();
-            if(user.connect) {
-                this.socket = socket;
-            }
+            //Login user = new Login();
+            //user.start();
+            //if(user.connect) {
+            this.socket = socket;
+            //}
         }
 
         //make sure screen names are unique, then repeatedly gets inputs and broadcasts them.
         public void run(){
-            try{
+            try {
                 // Create character streams for the socket.
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -96,7 +66,8 @@ public class EServer{
                     }
                     synchronized (names) {
                         if (!names.contains(name)) {
-                            System.out.println("User: " + name + " has logged in.");
+                            System.out.println("User: " + name + " is online.");
+                            out.println(name + " is online");
                             names.add(name);
                             break;
                         }
@@ -105,7 +76,9 @@ public class EServer{
 
                 //log in successful.
                 out.println("NAMEACCEPTED");
+                out.println("MESSAGE " + name + " is online.");
                 writers.add(out);
+
 
                 // Accept messages from this client and broadcast them.
                 // Ignore other clients that cannot be broadcasted to.
@@ -125,6 +98,7 @@ public class EServer{
             }
             finally{
                 System.out.println("User: " + name + " has logged off.");
+                out.println("MESSAGE " + name + " has logged off.");
                 //client sign off, remove from lists.
                 if(name != null){
                     names.remove(name);
