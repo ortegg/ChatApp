@@ -44,7 +44,6 @@ public class EServer{
                 // Create character streams for the socket.
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
-
                 //Get a name from this client.
                 while(true){
                     out.println("SUBMITNAME");
@@ -75,7 +74,10 @@ public class EServer{
                     }
                     for(PrintWriter writer : writers){
                         writer.println("MESSAGE " + name + ": " + input);
+                        FileWriter file = new FileWriter("src/chat_history", true);
+                        file.write(name + ": " + input + "\n");
                         System.out.println("User: " + name + " sent a message.");
+                        file.close();
                     }
                 }
             }
