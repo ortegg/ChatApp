@@ -3,8 +3,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
-import java.util.Map;
-//import java.util.TreeMap;
 
 /**
  * Created by EdwinOrtega on 5/23/17.
@@ -15,15 +13,12 @@ public class EServer{
     private static int portNum = 1955;
     //write names of the client on the app while checking that client name isn't in use already.
     private static HashSet<String> names = new HashSet<String>();
-//    private static TreeMap<String,String> UserInfo;
     //all the print writers for all the clients.
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 
     public static void main(String[] args) throws Exception{
         System.out.println("Server is running and accepting connections on port: " + portNum);
         ServerSocket listener = new ServerSocket(portNum);
-        //insert_users();
-        //print_users();
         try{
             while(true){
                 new Handler(listener.accept()).start();
@@ -33,23 +28,16 @@ public class EServer{
             listener.close();
         }
     }
-
     //this class manages a single client & sends/receives messages.
     private static class Handler extends Thread{
         private String name;
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
-
         //constructor
         public Handler(Socket socket){
-            //Login user = new Login();
-            //user.start();
-            //if(user.connect) {
             this.socket = socket;
-            //}
         }
-
         //make sure screen names are unique, then repeatedly gets inputs and broadcasts them.
         public void run(){
             try {
@@ -73,12 +61,10 @@ public class EServer{
                         }
                     }
                 }
-
                 //log in successful.
                 out.println("NAMEACCEPTED");
                 out.println("MESSAGE " + name + " is online.");
                 writers.add(out);
-
 
                 // Accept messages from this client and broadcast them.
                 // Ignore other clients that cannot be broadcasted to.

@@ -40,7 +40,6 @@ public class Login {
                     String pass = new String(pass1);
                     if(user.equals("") == false && pass.equals("") == false)
                         connect = authorized(user, pass);
-
                     if(connect == 1){
                         frame.setVisible(false);
                     }
@@ -65,7 +64,6 @@ public class Login {
                     String pass = new String(pass1);
                     if(user.equals("") == false && pass.equals("") == false)
                         connect = add_user(user, pass);
-
                     if(connect == 1){
                         frame.setVisible(false);
                     }
@@ -144,24 +142,18 @@ public class Login {
     }
     private static void placeComponents(JFrame frame) {
         frame.setLayout(null);
-
         JLabel userLabel = new JLabel("Username:");
         userLabel.setBounds(10, 10, 80, 25);
         frame.add(userLabel);
-
         userText.setBounds(100, 10, 160, 25);
         frame.add(userText);
-
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(10, 40, 80, 25);
         frame.add(passwordLabel);
-
         passwordText.setBounds(100, 40, 160, 25);
         frame.add(passwordText);
-
         loginButton.setBounds(10, 80, 80, 25);
         frame.add(loginButton);
-
         registerButton.setBounds(180, 80, 80, 25);
         frame.add(registerButton);
     }

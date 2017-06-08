@@ -22,7 +22,6 @@ public class EClient {
 
     //client constructor
     public EClient() {
-
         //chat window GUI
         textField.setEditable(false);
         messageArea.setEditable(false);
@@ -41,7 +40,6 @@ public class EClient {
         online_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         online_list.setFixedCellWidth(80);
         frame.getContentPane().add(online_list, "East");
-
         // Add Listeners
         textField.addActionListener(new ActionListener() {
             //when hit enter it sends the message to screen.
@@ -58,11 +56,9 @@ public class EClient {
     }
     //connect to server then enters the processing loop.
     public void run() throws IOException{
-
         // Make connection and initialize streams
         Socket socket = new Socket("127.0.0.1", 1955);
-        in = new BufferedReader(new InputStreamReader(
-                socket.getInputStream()));
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
 
         // Process all messages from server, according to the protocol.
